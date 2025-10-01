@@ -2,9 +2,11 @@ import { useKV } from '@github/spark/hooks'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { Plus, Calendar, MapPin, Clock, Users } from '@phosphor-icons/react'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Plus, Calendar, MapPin, Clock, Users, Sparkle } from '@phosphor-icons/react'
 import { EVENT_TYPES, Event, GuestStatus } from '@/types/events'
 import { CreateEventDialog } from '@/components/CreateEventDialog'
+import { LLMShowcase } from '@/components/LLMShowcase'
 import { useState } from 'react'
 
 const GUESTS = [
@@ -65,37 +67,51 @@ export function HomePage({ onNavigateToEvent }: HomePageProps) {
           <p className="text-muted-foreground text-lg">Manage all your social events in one place</p>
         </div>
 
-        {/* Create Event Button */}
-        <div className="flex justify-center mb-8">
-          <Button 
-            onClick={() => setShowCreateDialog(true)}
-            className="flex items-center gap-2 px-6 py-3 text-lg"
-            size="lg"
-          >
-            <Plus size={20} />
-            Create New Event
-          </Button>
-        </div>
+        {/* Main Content with Tabs */}
+        <Tabs defaultValue="events" className="w-full">
+          <TabsList className="grid w-full grid-cols-2 mb-8">
+            <TabsTrigger value="events" className="flex items-center gap-2">
+              <Calendar size={16} />
+              My Events
+            </TabsTrigger>
+            <TabsTrigger value="ai-features" className="flex items-center gap-2">
+              <Sparkle size={16} />
+              AI Features
+            </TabsTrigger>
+          </TabsList>
 
-        {/* Events Grid */}
-        {!events || events.length === 0 ? (
-          <Card className="text-center py-12">
-            <CardContent>
-              <Calendar className="mx-auto mb-4 text-muted-foreground" size={48} />
-              <h3 className="text-xl font-heading mb-2">No Events Yet</h3>
-              <p className="text-muted-foreground mb-4">Create your first event to get started!</p>
-              <Button onClick={() => setShowCreateDialog(true)}>
-                <Plus className="mr-2" size={16} />
-                Create Event
+          <TabsContent value="events" className="space-y-8">
+            {/* Create Event Button */}
+            <div className="flex justify-center">
+              <Button 
+                onClick={() => setShowCreateDialog(true)}
+                className="flex items-center gap-2 px-6 py-3 text-lg"
+                size="lg"
+              >
+                <Plus size={20} />
+                Create New Event
               </Button>
-            </CardContent>
-          </Card>
-        ) : (
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {(events || []).map((event) => {
-              const typeConfig = getEventTypeConfig(event.id.split('-')[0])
-              const IconComponent = getIconComponent(typeConfig.icon)
-              const statusCounts = getStatusCounts(event.id)
+            </div>
+
+            {/* Events Grid */}
+            {!events || events.length === 0 ? (
+              <Card className="text-center py-12">
+                <CardContent>
+                  <Calendar className="mx-auto mb-4 text-muted-foreground" size={48} />
+                  <h3 className="text-xl font-heading mb-2">No Events Yet</h3>
+                  <p className="text-muted-foreground mb-4">Create your first event to get started!</p>
+                  <Button onClick={() => setShowCreateDialog(true)}>
+                    <Plus className="mr-2" size={16} />
+                    Create Event
+                  </Button>
+                </CardContent>
+              </Card>
+            ) : (
+              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                {(events || []).map((event) => {
+                  const typeConfig = getEventTypeConfig(event.id.split('-')[0])
+                  const IconComponent = getIconComponent(typeConfig.icon)
+                  const statusCounts = getStatusCounts(event.id)
               
               return (
                 <Card 
@@ -171,6 +187,12 @@ export function HomePage({ onNavigateToEvent }: HomePageProps) {
             })}
           </div>
         )}
+          </TabsContent>
+
+          <TabsContent value="ai-features">
+            <LLMShowcase />
+          </TabsContent>
+        </Tabs>
 
         <CreateEventDialog 
           open={showCreateDialog}

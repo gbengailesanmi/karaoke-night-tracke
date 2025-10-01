@@ -45,6 +45,11 @@
 - **Why it matters**: Essential event information that guests need
 - **Success criteria**: Easy to set and update event details
 
+### AI-Powered Event Enhancement
+- **What it does**: LLM integration providing smart event descriptions, attendance insights, follow-up message generation, and event planning assistance
+- **Why it matters**: Transforms the app from simple tracking to intelligent event planning assistance, saving time and improving event quality
+- **Success criteria**: AI suggestions are helpful, accurate, and enhance the event planning experience
+
 ## Design Direction
 
 ### Visual Tone & Identity

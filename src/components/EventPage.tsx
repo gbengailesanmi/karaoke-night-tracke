@@ -7,6 +7,7 @@ import { Separator } from '@/components/ui/separator'
 import { ArrowLeft, Calendar, MusicNote, Users, Clock, MapPin, PencilSimple } from '@phosphor-icons/react'
 import { EventDialog } from '@/components/EventDialog'
 import { GuestCard } from '@/components/GuestCard'
+import { LLMFeatures } from '@/components/LLMFeatures'
 import { Event, EVENT_TYPES, GuestStatus } from '@/types/events'
 
 const GUESTS = [
@@ -198,7 +199,7 @@ export function EventPage({ eventId, onNavigateHome }: EventPageProps) {
         </Card>
 
         {/* Guest List */}
-        <Card>
+        <Card className="mb-8">
           <CardHeader>
             <CardTitle className="text-xl font-heading">Guest List</CardTitle>
           </CardHeader>
@@ -217,6 +218,13 @@ export function EventPage({ eventId, onNavigateHome }: EventPageProps) {
             </div>
           </CardContent>
         </Card>
+
+        {/* AI Features */}
+        <LLMFeatures 
+          currentEvent={event}
+          guestStatuses={eventStatuses}
+          onUpdateEvent={updateEvent}
+        />
 
         <EventDialog 
           open={showEventDialog}
