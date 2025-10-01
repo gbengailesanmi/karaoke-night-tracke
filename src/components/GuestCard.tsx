@@ -1,8 +1,7 @@
 import { Badge } from '@/components/ui/badge'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { User } from '@phosphor-icons/react'
-
-type GuestStatus = 'going' | 'maybe' | 'declined' | 'no-response'
+import { GuestStatus } from '@/types/events'
 
 interface GuestCardProps {
   name: string
